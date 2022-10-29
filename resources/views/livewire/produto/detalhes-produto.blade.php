@@ -38,7 +38,7 @@
                     <div class="col-md-12">
                         <label for="foto" class="form-label">Foto</label>
                         <img src="/img/produtos/{{$produto->foto}}" alt="produto" width="200" height="200" class="m-4">
-                        <input wire:model="foto" type="file" name="foto" id="foto">
+                        <input type="file" name="foto" id="foto">
                     </div>
                 </div>
                 <div class="form-row">

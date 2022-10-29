@@ -26,6 +26,7 @@ class CadastrarProduto extends Component
         $this->foto = $request->foto;
         $this->quantidade = $request->quantidade;
         
+        $imageName = '';
         if($request->hasFile('foto') && $request->file('foto')->isValid()){
             $requestImage = $request->foto;
 

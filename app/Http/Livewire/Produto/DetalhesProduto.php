@@ -30,10 +30,19 @@ class DetalhesProduto extends Component {
     }
 
     public function editar(Request $request){
+        $imageName = '';
+        if($request->hasFile('foto') && $request->file('foto')->isValid()){
+            $requestImage = $request->foto;
+
+            $ext = $requestImage->extension();
+            $imageName = md5($requestImage->getClientOriginalName() . strtotime("now")) . "." . $ext;
+            $requestImage->move(public_path('img/produtos'), $imageName);
+        }
+
         $this->produto = Produto::findOrFail($request->id);
         $this->produto->nome = $request->nome;
         $this->produto->descricao = $request->descricao;
-        // $this->produto->foto = $request->;
+        $this->produto->foto = $imageName;
         $this->produto->quantidade = $request->quantidade;
         $this->produto->update();
         return redirect()->route('visualizarProdutos');
