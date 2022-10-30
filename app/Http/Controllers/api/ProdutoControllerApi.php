@@ -14,12 +14,12 @@ class ProdutoControllerApi extends Controller {
     return ProdutoResource::collection($produtos);
   }
 
-  public function show($id){
+  public function viewProduto($id){
     $produto = Produto::findOrFail( $id );
     return new ProdutoResource( $produto );
   }
 
-  public function store(Request $request){
+  public function cadastrar(Request $request){
     $produto = new Produto;
     $produto->nome = $request->input('nome');
     $produto->descricao = $request->input('descricao');
@@ -30,7 +30,7 @@ class ProdutoControllerApi extends Controller {
     }
   }
 
-   public function update(Request $request){
+   public function editar(Request $request){
     $produto = Produto::findOrFail( $request->id );
     $produto->nome = $request->input('nome');
     $produto->descricao = $request->input('descricao');
@@ -41,7 +41,7 @@ class ProdutoControllerApi extends Controller {
     }
   } 
 
-  public function destroy($id){
+  public function deletar($id){
     $produto = Produto::findOrFail( $id );
     if( $produto->delete() ){
       return new ProdutoResource( $produto );
