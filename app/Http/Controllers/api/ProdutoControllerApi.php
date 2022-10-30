@@ -21,8 +21,10 @@ class ProdutoControllerApi extends Controller {
 
   public function cadastrar(Request $request){
     $produto = new Produto;
+    $produto->cod_barras = $request->input('cod_barras');
     $produto->nome = $request->input('nome');
     $produto->descricao = $request->input('descricao');
+    $produto->foto = $request->input('foto');
     $produto->quantidade = $request->input('quantidade');
 
     if( $produto->save() ){
@@ -32,8 +34,10 @@ class ProdutoControllerApi extends Controller {
 
    public function editar(Request $request){
     $produto = Produto::findOrFail( $request->id );
+    $produto->cod_barras = $request->input('cod_barras');
     $produto->nome = $request->input('nome');
     $produto->descricao = $request->input('descricao');
+    $produto->foto = $request->input('foto');
     $produto->quantidade = $request->input('quantidade');
 
     if( $produto->save() ){
