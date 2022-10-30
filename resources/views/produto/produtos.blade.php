@@ -1,6 +1,5 @@
-@php 
-@endphp
-
+@extends('layouts.app')
+@section('content')
 <div class="w-full m-auto">
     <div class="containerSection">
         <div class="cabecalho_container pt-2">
@@ -44,3 +43,4 @@
     </div>
     @endforeach
 </div>
+@endsection

@@ -1,10 +1,7 @@
 <?php
 
-use App\Http\Livewire\Dashboard\Dashboard;
-use App\Http\Livewire\Produto\CadastrarProduto;
-use App\Http\Livewire\Produto\DetalhesProduto;
-use App\Http\Controllers\ProdutoPDFController;
-use App\Http\Livewire\Produto\VisualizarProdutos;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProdutoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,14 +16,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 /*PRODUTOS*/
-Route::get('/', VisualizarProdutos::class)->name('visualizarProdutos');
-Route::get('/produtos', VisualizarProdutos::class)->name('visualizarProdutos');
-Route::get('/produtos/produto/{id}', DetalhesProduto::class);
-Route::get('/produtos/cadastrar', CadastrarProduto::class);
-Route::post('/produtos/cadastrar', [CadastrarProduto::class, 'cadastrar']);
-Route::post('/produtos/produto/{id}/generatePDF', [ProdutoPDFController::class, 'generatePDF']);
-Route::put('/produtos/produto/{id}/editar', [DetalhesProduto::class, 'editar']);
-Route::delete('/produtos/produto/{id}/deletar', [DetalhesProduto::class, 'deletar']);
+Route::get('/', [ProdutoController::class, 'index'])->name('visualizarProdutos');
+Route::get('/produtos', [ProdutoController::class, 'index'])->name('visualizarProdutos');
+Route::get('/produtos/produto/{id}', [ProdutoController::class, 'viewProduto']);
+Route::get('/produtos/cadastrar', [ProdutoController::class, 'viewCadastrar']);
+Route::post('/produtos/cadastrar', [ProdutoController::class, 'cadastrar']);
+Route::post('/produtos/produto/{id}/generatePDF', [ProdutoController::class, 'generatePDF']);
+Route::put('/produtos/produto/{id}/editar', [ProdutoController::class, 'editar']);
+Route::delete('/produtos/produto/{id}/deletar', [ProdutoController::class, 'deletar']);
 
 /*DASHBOARD*/
-Route::get('/dashboard', Dashboard::class)->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, ''])->name('dashboard');

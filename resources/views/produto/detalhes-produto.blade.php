@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <div class="w-100 m-auto">
     <div class="m-auto pb-4 card-branco">
         <div class="cabecalho_container">
@@ -67,3 +69,4 @@
         </div>
     </div>
 </div>
+@endsection
