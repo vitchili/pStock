@@ -41,4 +41,6 @@ Deletar produto: DELETE -> http://localhost/pStock/public/api/produtos/produto/{
 ![alt text](printscreen/postman.jpg)
 
 
+Observação: para testar os produtos pré-criados automaticamente, rode a migration com o parâmetro --seed.
 
+php artisan migrate --seed
