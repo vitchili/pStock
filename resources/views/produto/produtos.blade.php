@@ -13,8 +13,17 @@
     </div>
     <div class="mt-2">
         <form class="d-flex">
-            <input wire:model="search" id="search" name="search"  class="form-control me-2" type="text" placeholder="Pesquisar produto" aria-label="Pesquisar produto">
+            <input wire:model="search" id="search" name="search" class="form-control me-2" type="text" placeholder="Pesquisar produto" aria-label="Pesquisar produto">
             <button type="submit" class="btn btn-secondary">Pesquisar</button>
+        </form>
+    </div>
+</div>
+<div class="w-25 float-end">
+    <div class="mt-2">
+        <form action="/produtos/importar" method="POST" class="d-flex">
+            @csrf
+            <input id="aImportar" name="aImportar" class="form-control me-2" type="text" placeholder="Pesquise um produto para importar" aria-label="Importar produtos">
+            <button type="submit" class="btn btn-secondary">Importar</button>
         </form>
     </div>
 </div>
@@ -22,7 +31,11 @@
 <div class="m-5 flexcard">
     @foreach($produtos as $produto)
     <div class="col-md-2 column productbox m-4">
-        <img src="/img/produtos/{{$produto->foto}}" class="imgProduto">
+        @if(!$produto->importado)
+            <img src="/img/produtos/{{$produto->foto}}" class="imgProduto">
+        @else 
+            <img src="{{$produto->foto}}" class="imgProduto">
+        @endif
         <div class="producttitle">{{$produto->nome}}</div>
         <div class="productprice">
             <div class="mb-2">

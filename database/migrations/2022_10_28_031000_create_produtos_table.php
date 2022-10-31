@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('cod_barras', '10');
             $table->string('nome');
-            $table->string('descricao');
-            $table->string('foto');
+            $table->longText('descricao')->nullable();
+            $table->string('foto')->nullable();
             $table->string('quantidade');
+            $table->boolean('importado')->default('0');
             $table->timestamps();
         });
     }

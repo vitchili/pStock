@@ -22,6 +22,7 @@ class ProdutoFactory extends Factory {
             'descricao' => $this->faker->text($maxNbChars = 20),
             'foto' => 'exemplo.jpeg',
             'quantidade' => $this->faker->randomDigit(),
+            'importado' => '0',
             'created_at' => now(),
             'updated_at' => now(),
         ];

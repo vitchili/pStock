@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Produto;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ProdutoController extends Controller {
     public $produto;
@@ -14,6 +15,7 @@ class ProdutoController extends Controller {
     public $descricao;
     public $foto;
     public $quantidade;
+    public $importado;
 
 
     public function index(Request $request) {
@@ -34,7 +36,7 @@ class ProdutoController extends Controller {
         $this->descricao = $this->produto->descricao;
         $this->foto = $this->produto->foto;
         $this->quantidade = $this->produto->quantidade;
-        return view('produto.detalhes-produto',[
+        return view('produto.detalhes-produto', [
             'produto' => $this->produto,
             'codBarras' => $this->codBarras,
         ]);
@@ -66,8 +68,9 @@ class ProdutoController extends Controller {
         $this->descricao = $request->descricao;
         $this->foto = $request->foto;
         $this->quantidade = $request->quantidade;
+        $this->importado = isset($request->importado) && !empty($request->importado) ? true : false;
 
-        $imageName = '';
+        $imageName = $this->foto;
         if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
             $requestImage = $request->foto;
 
@@ -86,6 +89,37 @@ class ProdutoController extends Controller {
 
 
         return redirect()->route('visualizarProdutos');
+    }
+
+    public function importar(Request $request) {
+        $headers = [
+            'Content-Type' => 'application/json',
+            'X-Cosmos-Token' => 'Xe5DRdN0KKqbJO-bFvwc5Q',
+        ];
+        $client = new GuzzleClient([
+            'headers' => $headers
+        ]);
+
+        $r = $client->request("GET", "https://api.cosmos.bluesoft.com.br/products?query={$request->aImportar}");
+        $response = $r->getBody()->getContents();
+        $produtos = json_decode($response);
+        $produtos = $produtos->products;
+        $produto = $produtos[0];
+        $myRequest = new \Illuminate\Http\Request();
+        $myRequest->setMethod('POST');
+        $foto = isset($produto->thumbnail) && !empty($produto->thumbnail) ? $produto->thumbnail : null;
+        $myRequest->request->add([
+            "codBarras" => substr($produto->gtin, 0, 10),
+            "nome" => $produto->description,
+            "descricao" => $produto->ncm->full_description,
+            "quantidade" => 10,
+            "foto" => $foto,
+            "importado" => true
+        ]);
+
+        $this->cadastrar($myRequest);
+
+        redirect()->route('visualizarProdutos');
     }
 
 
